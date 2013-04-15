@@ -7,18 +7,26 @@ Answers = new Meteor.Collection('answers');
 
 refreshTimer = new Deps.Dependency;
 
+
 if (Meteor.isClient) {
-  Template.forum.loggedIn = function () {
-    return (Session.get('currentUserId') && Users.findOne({'_id':Session.get('currentUserId')}).name);
-  };
 
-  Template.login.greeting = function () {
-    return "Hi there. Welcome to HackOverflow.";
-  };
+  Template.forum.helpers({
+    loggedIn: function () {
+      return (Session.get('currentUserId') && Users.findOne({'_id':Session.get('currentUserId')}).name);
+    }
+  });
 
-  Template.askQuestion.currentUserName = function () {
-    return Users.findOne({'_id':Session.get('currentUserId')}).name;
-  };
+  Template.login.helpers({
+    greeting: function () {
+      return "Hi there. Welcome to HackOverflow.";
+    }
+  });
+
+  Template.askQuestion.helpers({
+    currentUserName: function () {
+      return Users.findOne({'_id':Session.get('currentUserId')}).name;
+    }
+  });
 
   Template.content.created = function() {
     this.refreshInterval = Meteor.setInterval(function() {
@@ -40,10 +48,12 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.content.questions = function () {
-    refreshTimer.depend();
-    return Questions.find({});
-  };
+  Template.content.helpers({
+    questions: function () {
+      refreshTimer.depend();
+      return Questions.find({});
+    }
+  });
 
   Template.askQuestion.events({
     'click input.askButton' : function () {

@@ -48,5 +48,22 @@
     <span class="asker">{{asker}}</span>
     <span class="text">{{text}}</span>
     <span class="timestamp">{{timeAgo}}</span>
+    {{#if loggedIn}}
+      <input type="button" class="answerButton" value="Answer" />
+    {{/if}}
+  </div>
+</template>
+
+<template name="question_answers">
+  {{#each answers}}
+    {{> answer}}
+  {{/each}}
+</template>
+
+<template name="answer">
+  <div class="answer">
+  {{#each answers}}
+    {{text}}
+  {{/each}}
   </div>
 </template>
