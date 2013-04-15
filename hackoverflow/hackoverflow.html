@@ -1,13 +1,52 @@
 <head>
-  <title>hackoverflow</title>
+  <title>HackOverflow</title>
 </head>
 
 <body>
-  {{> hello}}
+  <div class="outer">
+    {{> forum}}
+  </div>
 </body>
 
-<template name="hello">
-  <h1>Hello World!</h1>
+<template name="forum">
+  {{#unless loggedIn}}
+    {{> login}}
+  {{/unless}}
+  {{#if loggedIn}}
+    {{> askQuestion}}
+  {{/if}}
+  {{> content}}
+</template>
+
+<template name="login">
+  <h1>HackOverflow</h1>
   {{greeting}}
-  <input type="button" value="Click" />
+  <br/>
+  <label>Username : </label>
+  <input type="text" class="username" />
+  <input type="button" class="loginButton" value="Send" />
+</template>
+
+<template name="askQuestion">
+  <h3>Hi {{currentUserName}}!</h3>
+  <label>Go on! Ask a question : </label>
+  <input type="text" class="question" />
+  <input type="button" class="askButton" value="Ask" />
+  <input type="button" class="logoutButton" value="Logout" />
+</template>
+
+<template name="content">
+  <div class="content">
+    {{#each questions}}
+      {{> question}}
+    {{/each}}
+  </div>
+</template>
+
+<template name="question">
+  <div class="question">
+    <span class="asker">{{asker}}</span>
+    <span class="text">{{text}}</span>
+    <span class="timestamp">{{timeAgo}}</span>
+  </div>
 </template>
